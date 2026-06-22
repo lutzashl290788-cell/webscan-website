@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Bot, Sparkles, FileJson, ArrowDownToLine } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Bot, Sparkles, FileJson, ArrowDownToLine, Terminal as TerminalIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { useLang } from "@/lib/i18n";
 import { ReportLoader } from "./report-loader";
 import { FindingsExplorer } from "./findings-explorer";
 import { ChatWithReport } from "./chat-with-report";
+import { Terminal } from "./terminal";
 import { SettingsDialog } from "./settings-dialog";
 import { loadGLMConfig } from "@/lib/glm-client";
 import {
@@ -21,6 +22,7 @@ import {
 } from "@/lib/webscan-report";
 
 export function Analyzer() {
+  const { t } = useLang();
   const [report, setReport] = useState<ScanReport | null>(null);
   const [filename, setFilename] = useState<string>("");
   const { toast } = useToast();
@@ -47,15 +49,13 @@ export function Analyzer() {
         <div className="mx-auto mb-10 max-w-2xl text-center">
           <Badge variant="outline" className="mb-3 border-primary/30 bg-primary/10 text-primary">
             <Sparkles className="mr-1 h-3 w-3" />
-            AI-powered analyzer
+            {t("analyzer.badge")}
           </Badge>
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-            Upload a scan. Get AI verdicts.
+            {t("analyzer.title")}
           </h2>
           <p className="mt-3 text-lg text-muted-foreground">
-            Run WebScan locally against any target, upload the JSON report here,
-            and let <strong className="text-foreground">GLM 5.2</strong> triage each finding for
-            false positives — then chat with the model about remediation.
+            {t("analyzer.subtitle")}
           </p>
         </div>
 
@@ -65,20 +65,20 @@ export function Analyzer() {
             {
               n: 1,
               icon: ArrowDownToLine,
-              title: "Run WebScan",
-              desc: "pip install webscan-security && webscan -t https://yoursite.com --format json -o scan",
+              title: t("analyzer.step1.title"),
+              desc: t("analyzer.step1.desc"),
             },
             {
               n: 2,
               icon: FileJson,
-              title: "Upload report",
-              desc: "Drop the scan.json file below. Parsing happens in your browser — the file never leaves your device.",
+              title: t("analyzer.step2.title"),
+              desc: t("analyzer.step2.desc"),
             },
             {
               n: 3,
               icon: Bot,
-              title: "AI triage + chat",
-              desc: "GLM 5.2 reviews each finding (false positive / real / uncertain). Chat with the model about anything in the report.",
+              title: t("analyzer.step3.title"),
+              desc: t("analyzer.step3.desc"),
             },
           ].map((s) => (
             <Card key={s.n} className="border-border/60 bg-card/40">
@@ -107,22 +107,27 @@ export function Analyzer() {
           />
         </div>
 
-        {/* Stats + findings + chat */}
+        {/* Stats + findings + chat + terminal */}
         {report && (
           <div className="mx-auto max-w-5xl space-y-6">
-            {/* Stats overview */}
             <ReportStatsCard report={report} filename={filename} />
 
-            {/* Tabs: Findings / Chat */}
             <Tabs defaultValue="findings" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
+              <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="findings">
                   <FileJson className="mr-1.5 h-4 w-4" />
-                  Findings &amp; AI triage
+                  <span className="hidden sm:inline">{t("analyzer.tab.findings")}</span>
+                  <span className="sm:hidden">Findings</span>
                 </TabsTrigger>
                 <TabsTrigger value="chat">
                   <Bot className="mr-1.5 h-4 w-4" />
-                  Chat with GLM
+                  <span className="hidden sm:inline">{t("analyzer.tab.chat")}</span>
+                  <span className="sm:hidden">Chat</span>
+                </TabsTrigger>
+                <TabsTrigger value="terminal">
+                  <TerminalIcon className="mr-1.5 h-4 w-4" />
+                  <span className="hidden sm:inline">{t("analyzer.tab.terminal")}</span>
+                  <span className="sm:hidden">Term</span>
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="findings" className="mt-4">
@@ -131,30 +136,36 @@ export function Analyzer() {
               <TabsContent value="chat" className="mt-4">
                 <ChatWithReport report={report} />
               </TabsContent>
+              <TabsContent value="terminal" className="mt-4">
+                <Terminal onReport={handleReport} />
+              </TabsContent>
             </Tabs>
           </div>
         )}
 
-        {/* No report hint */}
+        {/* Terminal always available (even without a report loaded) */}
         {!report && (
-          <div className="mx-auto max-w-2xl text-center text-sm text-muted-foreground">
-            <p>
-              No report loaded yet. Drop a JSON file above or{" "}
-              <button
-                className="text-primary underline-offset-2 hover:underline"
-                onClick={() => {
-                  const el = document.querySelector('input[type="file"]') as HTMLInputElement | null;
-                  el?.click();
-                }}
-              >
-                try the sample report
-              </button>{" "}
-              to explore the AI features.
-            </p>
-            <p className="mt-3">
-              Don&apos;t have an API key yet?{" "}
-              <SettingsDialog />
-            </p>
+          <div className="mx-auto max-w-5xl space-y-6">
+            <Tabs defaultValue="terminal" className="w-full">
+              <TabsList className="grid w-full grid-cols-1">
+                <TabsTrigger value="terminal">
+                  <TerminalIcon className="mr-1.5 h-4 w-4" />
+                  {t("analyzer.tab.terminal")}
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="terminal" className="mt-4">
+                <Terminal onReport={handleReport} />
+              </TabsContent>
+            </Tabs>
+
+            <div className="mx-auto max-w-2xl text-center text-sm text-muted-foreground">
+              <p>
+                {t("analyzer.noReport")}
+              </p>
+              <p className="mt-3">
+                <SettingsDialog />
+              </p>
+            </div>
           </div>
         )}
       </div>
@@ -169,6 +180,7 @@ function ReportStatsCard({
   report: ScanReport;
   filename: string;
 }) {
+  const { t } = useLang();
   const stats = computeStats(report);
   return (
     <Card className="border-border/60 bg-card/40">
@@ -179,11 +191,11 @@ function ReportStatsCard({
               {filename || "report.json"} · {report.targets.length} target(s)
             </div>
             <div className="text-2xl font-bold">
-              {stats.total} {stats.total === 1 ? "finding" : "findings"}
+              {stats.total} {t("analyzer.findings")}
             </div>
             {report.scan_started && (
               <div className="text-xs text-muted-foreground">
-                scanned at {new Date(report.scan_started).toLocaleString()}
+                {t("analyzer.scannedAt")} {new Date(report.scan_started).toLocaleString()}
               </div>
             )}
           </div>

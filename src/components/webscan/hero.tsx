@@ -1,8 +1,12 @@
+"use client";
+
 import { Github, Star, GitFork, AlertCircle, CheckCircle2, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useLang } from "@/lib/i18n";
 
 export function Hero() {
+  const { t } = useLang();
   return (
     <section
       id="top"
@@ -19,31 +23,29 @@ export function Hero() {
           <div className="mb-6 flex flex-wrap items-center justify-center gap-2">
             <Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary">
               <Zap className="mr-1 h-3 w-3" />
-              v2.5.3 — zero known CVEs
+              {t("hero.badge.cve")}
             </Badge>
             <Badge variant="outline" className="border-purple-500/30 bg-purple-500/10 text-purple-500">
               <CheckCircle2 className="mr-1 h-3 w-3" />
-              GLM 5.2 AI triage built-in
+              {t("hero.badge.ai")}
             </Badge>
             <Badge variant="outline" className="border-border bg-secondary/50 text-muted-foreground">
-              MIT licensed · 860 tests
+              {t("hero.badge.license")}
             </Badge>
           </div>
 
           {/* Title */}
           <h1 className="mb-6 text-5xl font-extrabold tracking-tight md:text-7xl">
             <span className="bg-gradient-to-br from-foreground via-foreground to-primary bg-clip-text text-transparent">
-              WebScan
+              {t("hero.title")}
             </span>
           </h1>
 
           <p className="mx-auto mb-3 max-w-2xl text-balance text-xl font-medium text-foreground md:text-2xl">
-            Automated web security auditor.
+            {t("hero.subtitle")}
           </p>
           <p className="mx-auto mb-10 max-w-2xl text-balance text-base text-muted-foreground md:text-lg">
-            Crawl → discover → audit. <strong className="text-foreground">38 plugins</strong>,{" "}
-            <strong className="text-foreground">6 report formats</strong>, polite defaults, content-verified findings —{" "}
-            <strong className="text-primary">4.8× faster than Nuclei</strong>, zero false positives.
+            {t("hero.description")}
           </p>
 
           {/* CTA buttons */}
@@ -51,7 +53,7 @@ export function Hero() {
             <Button size="lg" asChild className="glow-primary w-full sm:w-auto">
               <a href="#analyzer">
                 <Zap className="mr-2 h-4 w-4" />
-                Open the analyzer
+                {t("hero.cta.primary")}
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
@@ -61,7 +63,7 @@ export function Hero() {
                 rel="noopener noreferrer"
               >
                 <Github className="mr-2 h-4 w-4" />
-                View on GitHub
+                {t("hero.cta.secondary")}
               </a>
             </Button>
           </div>
@@ -80,10 +82,10 @@ export function Hero() {
           {/* Stats row */}
           <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-4">
             {[
-              { label: "Plugins", value: "38" },
-              { label: "Scan time", value: "7.1s" },
-              { label: "False positives", value: "0" },
-              { label: "CVE database", value: "350K+" },
+              { label: t("hero.stat.plugins"), value: "38" },
+              { label: t("hero.stat.time"), value: "7.1s" },
+              { label: t("hero.stat.fp"), value: "0" },
+              { label: t("hero.stat.cve"), value: "350K+" },
             ].map((stat) => (
               <div key={stat.label} className="rounded-lg border border-border/60 bg-card/40 p-4">
                 <div className="text-3xl font-bold text-foreground">{stat.value}</div>

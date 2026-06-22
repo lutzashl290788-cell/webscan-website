@@ -1,10 +1,13 @@
 "use client";
 
-import { Shield, Github, BookOpen, Terminal } from "lucide-react";
+import { Shield, Github, Terminal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsDialog } from "./settings-dialog";
+import { LanguageToggle } from "./language-toggle";
+import { useLang } from "@/lib/i18n";
 
 export function SiteHeader() {
+  const { t } = useLang();
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -26,23 +29,24 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-1 md:flex">
           <Button variant="ghost" size="sm" asChild>
-            <a href="#analyzer">Analyzer</a>
+            <a href="#analyzer">{t("nav.analyzer")}</a>
           </Button>
           <Button variant="ghost" size="sm" asChild>
-            <a href="#plugins">Plugins</a>
+            <a href="#plugins">{t("nav.plugins")}</a>
           </Button>
           <Button variant="ghost" size="sm" asChild>
-            <a href="#benchmark">Benchmark</a>
+            <a href="#benchmark">{t("nav.benchmark")}</a>
           </Button>
           <Button variant="ghost" size="sm" asChild>
-            <a href="#compare">Compare</a>
+            <a href="#compare">{t("nav.compare")}</a>
           </Button>
           <Button variant="ghost" size="sm" asChild>
-            <a href="#docs">Docs</a>
+            <a href="#docs">{t("nav.docs")}</a>
           </Button>
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
+          <LanguageToggle />
           <SettingsDialog />
           <Button variant="outline" size="sm" asChild>
             <a
@@ -57,8 +61,8 @@ export function SiteHeader() {
           <Button size="sm" asChild className="glow-primary">
             <a href="#analyzer">
               <Terminal className="mr-1.5 h-4 w-4" />
-              <span className="hidden sm:inline">Open analyzer</span>
-              <span className="sm:hidden">Analyze</span>
+              <span className="hidden sm:inline">{t("nav.openAnalyzer")}</span>
+              <span className="sm:hidden">{t("nav.analyze")}</span>
             </a>
           </Button>
         </div>
