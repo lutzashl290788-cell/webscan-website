@@ -81,7 +81,7 @@ export function Analyzer() {
               desc: t("analyzer.step3.desc"),
             },
           ].map((s) => (
-            <Card key={s.n} className="border-border/60 bg-card/40">
+            <Card key={s.n} className="h-full border-border/60 bg-card/40">
               <CardContent className="p-4">
                 <div className="mb-2 flex items-center gap-2">
                   <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/15 font-mono text-xs font-bold text-primary ring-1 ring-primary/30">

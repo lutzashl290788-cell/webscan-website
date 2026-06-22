@@ -67,7 +67,7 @@ export function Benchmark() {
 
         {/* Key takeaways */}
         <div className="mx-auto mb-16 grid max-w-4xl gap-4 md:grid-cols-3">
-          <Card className="border-primary/30 bg-primary/5">
+          <Card className="h-full border-primary/30 bg-primary/5">
             <CardContent className="p-5 text-center">
               <div className="text-3xl font-bold text-primary">4.8×</div>
               <div className="mt-1 text-sm text-muted-foreground">
@@ -75,7 +75,7 @@ export function Benchmark() {
               </div>
             </CardContent>
           </Card>
-          <Card className="border-primary/30 bg-primary/5">
+          <Card className="h-full border-primary/30 bg-primary/5">
             <CardContent className="p-5 text-center">
               <div className="text-3xl font-bold text-primary">6.0×</div>
               <div className="mt-1 text-sm text-muted-foreground">
@@ -83,7 +83,7 @@ export function Benchmark() {
               </div>
             </CardContent>
           </Card>
-          <Card className="border-emerald-500/30 bg-emerald-500/5">
+          <Card className="h-full border-emerald-500/30 bg-emerald-500/5">
             <CardContent className="p-5 text-center">
               <div className="text-3xl font-bold text-emerald-500">0</div>
               <div className="mt-1 text-sm text-muted-foreground">
@@ -139,8 +139,8 @@ export function Benchmark() {
                 key={v.name}
                 className={
                   v.winner
-                    ? "border-primary/40 bg-primary/5"
-                    : "border-border/60 bg-card/40"
+                    ? "h-full border-primary/40 bg-primary/5"
+                    : "h-full border-border/60 bg-card/40"
                 }
               >
                 <CardHeader className="pb-2">

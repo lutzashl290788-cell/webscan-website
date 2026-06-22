@@ -193,7 +193,7 @@ export function PluginExplorer() {
 
 function PluginCard({ plugin }: { plugin: Plugin }) {
   return (
-    <Card className="group border-border/60 bg-card/40 transition-colors hover:border-primary/40 hover:bg-card/80">
+    <Card className="group h-full border-border/60 bg-card/40 transition-colors hover:border-primary/40 hover:bg-card/80">
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0 flex-1">

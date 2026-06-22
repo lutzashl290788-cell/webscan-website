@@ -97,11 +97,11 @@ export function Features() {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f) => (
             <Card
               key={f.title}
-              className="group relative overflow-hidden border-border/60 bg-card/40 transition-colors hover:border-primary/40 hover:bg-card/80"
+              className="group relative h-full overflow-hidden border-border/60 bg-card/40 transition-colors hover:border-primary/40 hover:bg-card/80"
             >
               <CardHeader>
                 <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-md bg-secondary ring-1 ring-border">
