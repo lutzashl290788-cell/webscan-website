@@ -5,13 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Permissions required for GitHub Pages deployment
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -32,12 +30,14 @@ jobs:
 
       - name: Build static site for GitHub Pages
         env:
-          BUILD_FOR_PAGES: "1"
-          # Set CUSTOM_DOMAIN=1 in repo variables if you've configured a custom
-          # domain (e.g. webscan.lutzashl290788-cell.dev) — that disables the
-          # /webscan-website basePath and assetPrefix.
+          # Set CUSTOM_DOMAIN=1 in repo variables (Settings → Secrets and
+          # variables → Actions → Variables) when a custom domain is configured.
+          # That disables the /webscan-website basePath.
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
-        run: bun run build
+        run: bun run build:pages
+
+      - name: Add .nojekyll
+        run: touch ./out/.nojekyll
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
